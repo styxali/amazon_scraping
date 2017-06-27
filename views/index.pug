@@ -1,5 +1,23 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1.welcome-title= title
+
+  h2.help-text Search and Store product info temporarily!
+
+  form.asin-form(action='/' method='post')
+
+    input#asin(type='text' placeholder="Enter ASIN")
+
+  h3 We will scrap http://www.amazon.com/dp/:ASIN for you!!
+
+  h3 Search History
+
+  table.search-history
+    tr
+      th Name
+      th Rating
+      th Reviews
+      th Search Time
+
+
