@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h1.welcome-title= title
+  h1.welcome-title Amazon Web Scraping
 
   h2.help-text Search and Store product info temporarily!
 
@@ -16,8 +16,16 @@ block content
   table.search-history
     tr
       th Name
-      th Rating
       th Reviews
+      th Rating
       th Search Time
+
+    each info in productsInfo
+      tr
+        td= info[0]
+        td= info[1]
+        td= info[2]
+        td= new Date(info[3] * 1000)
+
 
 
