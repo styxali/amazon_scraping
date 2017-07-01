@@ -8,7 +8,7 @@ var cheerio = require('cheerio');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  redisClient.sort('ramon', 'LIMIT', 0, 25, 'get', '*->title', 'get',
+  redisClient.sort('ramon', 'by', '*->time', 'LIMIT', 0, 25, 'desc', 'get', '*->title', 'get',
     '*->reviews', 'get', '*->rating', 'get', '*->time', function (err, reply) {
       var newArray = []
       while (reply.length) newArray.push(reply.splice(0, 4));
@@ -38,9 +38,11 @@ router.post('/', function(req, res, next){
     return(info);
   }).then ( (info) => {
     var ts = Math.round((new Date()).getTime() / 1000);
+    var productInfo = ['title', info.title, 'reviews', info.reviews, 'rating', info.rating, 'time', ts]
 
+    redisClient.zadd('allSearches', ts, asin)
     redisClient.zadd('ramon', ts, asin, function(err, reply) {
-      redisClient.hmset(asin, ['title', info.title, 'reviews', info.reviews, 'rating', info.rating, 'time', ts])
+      redisClient.hmset(asin, productInfo)
     });
 
     res.redirect('/');
