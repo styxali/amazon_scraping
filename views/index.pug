@@ -1,31 +1,42 @@
 extends layout
 
 block content
-  h1.welcome-title Amazon Web Scraping
+  .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+    header.mdl-layout__header
+      .mdl-layout__header-row
+        span.mdl-layout-title Canopy Scout
+        .mdl-layout-spacer
 
-  h2.help-text Search and Store product info temporarily!
+    .mdl-layout__drawer
+      span.mdl-layout-title Related Products
+      nav.mdl-navigation
+        a.mdl-navigation__link(href="https://www.junglescout.com") Jungle Scout
 
-  form.asin-form(action='/' method='post')
+    .mdl-layout__content
 
-    input#asin(type='text' placeholder="Enter ASIN" name="asin")
+      form.asin-form(action='/' method='post')
+        .mdl-textfield.mdl-js-textfield
+          input#asin.mdl-textfield__input(type='text' placeholder="Enter ASIN" name="asin")
 
-  h3 We will scrap http://www.amazon.com/dp/:ASIN for you!!
+      table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+        thead
+          tr
+            th.mdl-data-table__cell--non-numeric ASIN
+            th.mdl-data-table__cell--non-numeric Name
+            th.mdl-data-table__cell--non-numeric Reviews
+            th.mdl-data-table__cell--non-numeric Rating
+            th.mdl-data-table__cell--non-numeric Search Time
+            th.mdl-data-table__cell--non-numeric Availability
 
-  h3 Search History
-
-  table.search-history
-    tr
-      th Name
-      th Reviews
-      th Rating
-      th Search Time
-
-    each info in productsInfo
-      tr
-        td= info[0]
-        td= info[1]
-        td= info[2]
-        td= new Date(info[3] * 1000)
+        tbody
+          each info in productsInfo
+            tr
+              td.mdl-data-table__cell--non-numeric= info[0]
+              td.mdl-data-table__cell--non-numeric= info[1]
+              td.mdl-data-table__cell--non-numeric= info[2]
+              td.mdl-data-table__cell--non-numeric= info[3]
+              td.mdl-data-table__cell--non-numeric= new Date(info[4] * 1000)
+              td.mdl-data-table__cell--non-numeric= info[5]
 
 
 

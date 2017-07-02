@@ -14,9 +14,11 @@ router.get('/', function(req, res, next) {
 
   if (!!id) {
     redisClient.expire(id, 604800)
-    redisClient.sort(id, 'by', '*->time', 'LIMIT', 0, 25, 'desc', 'get', '*->title', 'get',
-      '*->reviews', 'get', '*->rating', 'get', '*->time', function (err, reply) {
-        while (reply.length) newArray.push(reply.splice(0, 4));
+    redisClient.sort(id, 'by', '*->time', 'LIMIT', 0, 25, 'desc', 'get', '#',
+      'get', '*->title', 'get','*->reviews', 'get', '*->rating', 'get', '*->time',
+      'get', '*->availability', function (err, reply) {
+        while (reply.length) newArray.push(reply.splice(0, 6));
+        console.warn(newArray);
         res.render('index', { productsInfo: newArray });
       }
     )
@@ -31,7 +33,7 @@ router.post('/', function(req, res, next){
 
   if (!id) {
     // create the hex and set the cookie
-    id = randomHex({ max: 200 })
+    id = randomHex()
     res.cookie('canopy-aws', id)
   }
 
@@ -47,13 +49,21 @@ router.post('/', function(req, res, next){
     var info = {
       title: $('#productTitle').text().trim(),
       reviews: $('#acrCustomerReviewText').first().text(),
-      rating: $('i.a-icon.a-icon-star').children().first().text()
+      rating: $('i.a-icon.a-icon-star').children().first().text(),
+      availability: $('#availability').children('span').text().trim()
     }
 
     return(info);
   }).then ( (info) => {
     var ts = Math.round((new Date()).getTime() / 1000);
-    var productInfo = ['title', info.title, 'reviews', info.reviews, 'rating', info.rating, 'time', ts]
+    var productInfo = [
+      'title', info.title,
+      'reviews', info.reviews,
+      'rating', info.rating,
+      'time', ts,
+      'availability', info.availability
+    ]
+    console.warn(productInfo)
 
     redisClient.zadd('allSearches', ts, asin)
     redisClient.zadd(id, ts, asin, function(err, reply) {
@@ -62,6 +72,7 @@ router.post('/', function(req, res, next){
 
     res.redirect('/');
   }).catch ( (error) => {
+    console.warn(error)
     res.redirect('/');
   })
 });
