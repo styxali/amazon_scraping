@@ -1,1 +1,10 @@
+.mdl-layout__content.canopy {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
 
+
+.mdl-layout__header.canopy.canopy {
+  background-color: #5ac7a0;
+}

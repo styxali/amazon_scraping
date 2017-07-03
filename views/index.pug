@@ -2,7 +2,7 @@ extends layout
 
 block content
   .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
-    header.mdl-layout__header
+    header.mdl-layout__header.canopy
       .mdl-layout__header-row
         span.mdl-layout-title Canopy Scout
         .mdl-layout-spacer
@@ -12,7 +12,7 @@ block content
       nav.mdl-navigation
         a.mdl-navigation__link(href="https://www.junglescout.com") Jungle Scout
 
-    .mdl-layout__content
+    .mdl-layout__content.canopy
 
       form.asin-form(action='/' method='post')
         .mdl-textfield.mdl-js-textfield
@@ -29,14 +29,14 @@ block content
             th.mdl-data-table__cell--non-numeric Availability
 
         tbody
-          each info in productsInfo
-            tr
+          each info, index in productsInfo
+            tr(id="tooltip" + index)
               td.mdl-data-table__cell--non-numeric= info[0]
               td.mdl-data-table__cell--non-numeric= info[1]
               td.mdl-data-table__cell--non-numeric= info[2]
               td.mdl-data-table__cell--non-numeric= info[3]
               td.mdl-data-table__cell--non-numeric= new Date(info[4] * 1000)
               td.mdl-data-table__cell--non-numeric= info[5]
-
+            .mdl-tooltip.mdl-tooltip--large.mdl-tooltip--left(data-mdl-for="tooltip" + index) Refresh
 
 
