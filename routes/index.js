@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var redis = require('redis')
-var redisClient = redis.createClient()
+
+if (!process.env.REDIS_URL) {
+  var redisClient = redis.createClient()
+} else
+  var redisClient = redis.createClient(process.env.REDIS_URL)
+
 
 var axios = require('axios');
 var cheerio = require('cheerio');
