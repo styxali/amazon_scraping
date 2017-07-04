@@ -1,1 +1,1 @@
-web: node index.js
+web: DEBUG=amazon_scraping:* & npm start
