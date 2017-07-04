@@ -37,9 +37,12 @@ router.post('/', function(req, res, next){
     res.cookie('canopy-aws', id)
   }
 
-  var asin = req.body.asin;
-  if (!asin) {
+  if (!req.body.asin && !req.body.hiddenAsin) {
     res.redirect('/');
+  } else if (req.body.asin) {
+    var asin = req.body.asin;
+  } else {
+    var asin = req.body.hiddenAsin;
   }
 
   var url = `http://www.amazon.ca/dp/${asin}`

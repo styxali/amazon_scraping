@@ -7,6 +7,9 @@ block content
         span.mdl-layout-title Canopy Scout
         .mdl-layout-spacer
 
+        nav.mdl-navigation.mdl-layout--large-screen-only
+          a.mdl-navigation__link(href="https://www.junglescout.com") Jungle Scout
+
     .mdl-layout__drawer
       span.mdl-layout-title Related Products
       nav.mdl-navigation
@@ -14,9 +17,11 @@ block content
 
     .mdl-layout__content.canopy
 
-      form.asin-form(action='/' method='post')
+      form#asin-form(action='/' method='post')
         .mdl-textfield.mdl-js-textfield
           input#asin.mdl-textfield__input(type='text' placeholder="Enter ASIN" name="asin")
+
+          input#asin-hidden(type="hidden" name="hiddenAsin" value="")
 
       table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
         thead
@@ -30,7 +35,7 @@ block content
 
         tbody
           each info, index in productsInfo
-            tr(id="tooltip" + index)
+            tr(onclick="refreshProduct('" + info[0] + "')" id="tooltip" + index)
               td.mdl-data-table__cell--non-numeric= info[0]
               td.mdl-data-table__cell--non-numeric= info[1]
               td.mdl-data-table__cell--non-numeric= info[2]
